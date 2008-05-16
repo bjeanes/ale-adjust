@@ -18,7 +18,7 @@ class FrameTime
   end
   
   # this should be named nicer
-  def add(s, f=0)
+  def add!(s, f=0)
     @frame = @frame + f
     @time += (s + @frame / @frames) #if the frames tick over to a new second, compensate
     @frame %= @frames
@@ -26,7 +26,7 @@ class FrameTime
   end
   
   # this should be named nicer
-  def minus(s, f=0)
+  def minus!(s, f=0)
     self.add(-s, -f)
   end
   

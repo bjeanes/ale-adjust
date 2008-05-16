@@ -19,13 +19,13 @@ begin
     ft3 = FrameTime.parse($3)
 
     # start time has to increment a second
-    ft1.add(1)
+    ft1.add!(1)
     
     # end time has to decrement one frame
-    ft2.minus(0,1)
+    ft2.minus!(0,1)
     
     # duration has to decrement one second and one frame
-    ft3.minus(1,1)
+    ft3.minus!(1,1)
     
     "#{ft1}\t#{ft2}\t#{ft3}"
   end
