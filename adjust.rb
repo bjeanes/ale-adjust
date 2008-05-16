@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby
+# Usage: adjust.rb file_to_convert.ale
+# Adjustment values are hardcoded at the moment for a specific project. Will be variable later
 
-require 'time'
-
-=begin
-
-=end
-
+require 'frametime'
 
 ale = ARGV.shift
 
@@ -15,28 +12,20 @@ begin
   # output = File.open(ale)
   output = $stdout
 
-  input.gsub!(/(\d\d:\d\d:\d\d):(\d\d)\t(\d\d:\d\d:\d\d):(\d\d)\t(\d\d:\d\d:\d\d):(\d\d)/) do |m| 
-    t1 = Time.parse($1); f1 = $2
-    t2 = Time.parse($3); f2 = $4
-    t3 = Time.parse($5); f3 = $6
+  # at the moment the frame times have to be next to each other in the ALE columns
+  input.gsub!(/(\d\d:\d\d:\d\d:\d\d)\t(\d\d:\d\d:\d\d:\d\d)\t(\d\d:\d\d:\d\d:\d\d)/) do |m| 
+    ft1 = FrameTime.parse($1)
+    ft2 = FrameTime.parse($2)
+    ft3 = FrameTime.parse($3)
 
     # start time has to increment a second
-    t1 += 1
+    ft1.add(1)
     
     # end time has to decrement one frame
-    t2 -= 1 if f2.to_i.zero?
-    f2 = (f2.to_i - 1) % 25
-    f2 = "0#{f2}" if f2.to_s.size == 1
+    ft2.minus(0,1)
     
     # duration has to decrement one second and one frame
-    t3 -= 1
-    if f3 == '00'
-      f3 = '24'
-      t3 -= 1
-    else
-      f3 = (f3.to_i - 1).to_s
-      f3 = "0#{f3}" if f3.size == 1
-    end
+    ft3.minus(1,1)
     
     "#{t1.strftime("%H:%M:%S")}:#{f1}\t#{t2.strftime("%H:%M:%S")}:#{f2}\t#{t3.strftime("%H:%M:%S")}:#{f3}"
   end
