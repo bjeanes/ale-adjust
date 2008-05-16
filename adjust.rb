@@ -27,7 +27,7 @@ begin
     # duration has to decrement one second and one frame
     ft3.minus(1,1)
     
-    "#{t1.strftime("%H:%M:%S")}:#{f1}\t#{t2.strftime("%H:%M:%S")}:#{f2}\t#{t3.strftime("%H:%M:%S")}:#{f3}"
+    "#{ft1}\t#{ft2}\t#{ft3}"
   end
   
   output.write input
